@@ -1,11 +1,14 @@
 package com.building_mannager_system.entity.customer_service.contact_manager;
 
 import com.building_mannager_system.entity.customer_service.officeSpaceAllcation.Location;
+import com.building_mannager_system.entity.customer_service.system_manger.Meter;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -36,5 +39,8 @@ public class Office {
 
     @Column(name = "DrawingFile")
     private String drawingFile;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "office")
+    private List<Meter> meters = new ArrayList<>();
 
 }

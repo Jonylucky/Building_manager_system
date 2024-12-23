@@ -1,4 +1,9 @@
 package com.building_mannager_system.repository.system_manager;
 
-public interface MaintenanceHistoryRepository {
+import com.building_mannager_system.entity.property_manager.MaintenanceHistory;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface MaintenanceHistoryRepository extends JpaRepository<MaintenanceHistory, Integer> {
 }

@@ -12,11 +12,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/device-types")
-public class DeviceTypeController {
+public class DevicesTypeController {
     @Autowired
     private DeviceTypeService deviceTypeService;
 
-    // Create a new DeviceType
     // Create a new DeviceType
     @PostMapping
     public ResponseEntity<ApiResponce<DeviceTypeDto>> createDeviceType(@RequestBody DeviceTypeDto deviceTypeDto) {
@@ -56,4 +55,5 @@ public class DeviceTypeController {
         ApiResponce<Void> response = new ApiResponce<>(HttpStatus.NO_CONTENT.value(), null, "DeviceType deleted successfully");
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
     }
+
 }

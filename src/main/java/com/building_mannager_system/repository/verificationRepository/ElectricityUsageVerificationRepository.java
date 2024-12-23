@@ -1,4 +1,9 @@
 package com.building_mannager_system.repository.verificationRepository;
 
-public interface ElectricityUsageVerificationRepository {
+import com.building_mannager_system.entity.verification.ElectricityUsageVerification;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface ElectricityUsageVerificationRepository extends JpaRepository<ElectricityUsageVerification, Integer> {
 }

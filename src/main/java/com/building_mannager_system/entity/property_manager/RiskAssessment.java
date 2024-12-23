@@ -1,9 +1,6 @@
-package com.building_mannager_system.service.system_service;
+package com.building_mannager_system.entity.property_manager;
 
 
-import com.building_mannager_system.entity.property_manager.Device;
-import com.building_mannager_system.entity.property_manager.MaintenanceHistory;
-import com.building_mannager_system.entity.property_manager.Subcontractor;
 import com.building_mannager_system.enums.ServiceType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

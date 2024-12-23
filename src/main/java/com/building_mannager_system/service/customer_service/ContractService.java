@@ -6,12 +6,15 @@ import com.building_mannager_system.dto.requestDto.customer.CustomerTypeDocument
 import com.building_mannager_system.dto.responseDto.ContractReminderDto;
 import com.building_mannager_system.entity.customer_service.contact_manager.Contract;
 import com.building_mannager_system.entity.customer_service.contact_manager.Office;
+import com.building_mannager_system.entity.customer_service.customer_manager.Contact;
 import com.building_mannager_system.entity.customer_service.customer_manager.Customer;
 import com.building_mannager_system.entity.customer_service.customer_manager.Customertype;
+import com.building_mannager_system.entity.customer_service.system_manger.Meter;
 import com.building_mannager_system.mapper.contractMapper.ContractMapper;
 import com.building_mannager_system.repository.Contract.ContractRepository;
 import com.building_mannager_system.service.ConfigService.FileService;
 import com.building_mannager_system.service.officeAllcation.OfficeService;
+import com.building_mannager_system.service.system_service.MeterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -23,6 +26,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -38,9 +42,15 @@ public class ContractService {
      private OfficeService officeService;
      @Autowired
      private FileService fileService;
+     @Autowired
+     private ContactService contactService;
 
     @Autowired
     private ContractMapper contractMapper;
+
+   @Autowired
+   private MeterService meterService;
+
     @Autowired
     private CustomerTypeDocument customerTypeDocumentService;
 
@@ -57,9 +67,6 @@ public class ContractService {
         // Retrieve the office details using officeId
 
         Office office = officeService.findOfficeById(contractDto.getOfficeId());
-
-
-
 
         // Parse the dates
         LocalDate startDate = contractDto.getStartDate();
@@ -235,4 +242,15 @@ System.out.println("birthday :  " + birthdayThisYear);
     }
 
 
+    // Phương thức để lấy Contract từ OfficeId
+    public Contract getContractByOfficeId(Integer officeId) {
+        // Tìm hợp đồng từ OfficeId
+        Contract contract = contractRepository.findByOfficeID_Id(officeId);
+        if (contract == null) {
+            throw new RuntimeException("No contracts found for OfficeId: " + officeId);
+        }
+
+
+        return contract;
+    }
 }

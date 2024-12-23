@@ -8,6 +8,8 @@ import com.building_mannager_system.repository.Contract.ContractRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class ContactService {
 
@@ -25,6 +27,15 @@ public class ContactService {
 
         // Convert the saved entity back to DTO and return it
         return contactMapper.toDTO(savedContact);
+    }
+    // Phương thức lấy Contact từ CustomerId
+    public Contact getContactByCustomerId(Integer customerId) {
+        // Tìm Contact theo CustomerId
+        Optional<Contact> contactOptional = contactRepository.findByCustomerId(customerId);
+        if (!contactOptional.isPresent()) {
+            throw new RuntimeException("Contact not found for CustomerId: " + customerId);
+        }
+        return contactOptional.get();
     }
 
 }

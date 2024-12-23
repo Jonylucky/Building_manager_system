@@ -9,7 +9,7 @@ import lombok.experimental.FieldDefaults;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@FieldDefaults(level = AccessLevel.PACKAGE)
+
 @Table(name = "contact")
 public class Contact {
     @Id

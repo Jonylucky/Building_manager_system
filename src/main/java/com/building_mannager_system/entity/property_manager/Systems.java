@@ -2,9 +2,7 @@ package com.building_mannager_system.entity.property_manager;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
@@ -15,7 +13,7 @@ import java.util.List;
 
 @Table(name="systems")
 
-public class System {
+public class Systems {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; // Or Integer, depending on your database
@@ -26,4 +24,7 @@ public class System {
 
     @OneToMany(mappedBy = "system", cascade = CascadeType.ALL)
     private List<Subcontractor> subcontractors;
+
+
+
 }

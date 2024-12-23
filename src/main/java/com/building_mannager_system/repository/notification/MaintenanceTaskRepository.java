@@ -1,4 +1,4 @@
-package com.building_mannager_system.mapper.notification;
+package com.building_mannager_system.repository.notification;
 
 import com.building_mannager_system.entity.property_manager.MaintenanceTask;
 import org.springframework.data.jpa.repository.JpaRepository;
