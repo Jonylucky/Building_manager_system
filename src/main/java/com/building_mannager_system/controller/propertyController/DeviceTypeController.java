@@ -2,6 +2,7 @@ package com.building_mannager_system.controller.propertyController;
 
 import com.building_mannager_system.dto.requestDto.propertyDto.DeviceTypeDto;
 import com.building_mannager_system.dto.responseDto.ApiResponce;
+import com.building_mannager_system.entity.property_manager.DeviceType;
 import com.building_mannager_system.service.property_manager.DeviceTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,9 +28,9 @@ public class DeviceTypeController {
 
     // Get all DeviceTypes
     @GetMapping
-    public ResponseEntity<ApiResponce<List<DeviceTypeDto>>> getAllDeviceTypes() {
-        List<DeviceTypeDto> deviceTypes = deviceTypeService.getAllDeviceTypes();
-        ApiResponce<List<DeviceTypeDto>> response = new ApiResponce<>(HttpStatus.OK.value(), deviceTypes, "DeviceTypes fetched successfully");
+    public ResponseEntity<ApiResponce<List<DeviceType>>> getAllDeviceTypes() {
+        List<DeviceType> deviceTypes = deviceTypeService.getAllDeviceTypes();
+        ApiResponce<List<DeviceType>> response = new ApiResponce<>(HttpStatus.OK.value(), deviceTypes, "DeviceTypes fetched successfully");
         return ResponseEntity.ok(response);
     }
 

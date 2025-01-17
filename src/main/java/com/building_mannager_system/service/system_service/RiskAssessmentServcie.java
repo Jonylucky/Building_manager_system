@@ -18,13 +18,12 @@ public class RiskAssessmentServcie {
     @Autowired
     private RiskAssessmentMapper mapper;
     // Create RiskAssessment
-    public RiskAssessmentDto createRiskAssessment(RiskAssessmentDto riskAssessmentDto) {
-        RiskAssessment entity = mapper.toEntity(riskAssessmentDto);
+    public RiskAssessment createRiskAssessment(RiskAssessment riskAssessment) {
         // Tính toán RiskPriorityNumber (RPN)
-        int rpn = entity.getRiskProbability() * entity.getRiskImpact() * entity.getRiskDetection();
-        entity.setRiskPriorityNumber(rpn);
-        RiskAssessment savedEntity = repository.save(entity);
-        return mapper.toDto(savedEntity);
+        int rpn = riskAssessment.getRiskProbability() * riskAssessment.getRiskImpact() * riskAssessment.getRiskDetection();
+        riskAssessment.setRiskPriorityNumber(rpn);
+        RiskAssessment savedEntity = repository.save(riskAssessment);
+        return  savedEntity;
     }
 
     // Get RiskAssessment by ID
@@ -56,7 +55,6 @@ public class RiskAssessmentServcie {
             existingEntity.setRiskDetection(riskAssessmentDto.getRiskDetection());
             existingEntity.setRiskPriorityNumber(riskAssessmentDto.getRiskPriorityNumber());
             existingEntity.setMitigationAction(riskAssessmentDto.getMitigationAction());
-            existingEntity.setRemarks(riskAssessmentDto.getRemarks());
 
             // Save and return updated DTO
             RiskAssessment updatedEntity = repository.save(existingEntity);

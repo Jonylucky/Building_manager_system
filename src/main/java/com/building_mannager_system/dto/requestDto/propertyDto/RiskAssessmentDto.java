@@ -11,7 +11,6 @@ public class RiskAssessmentDto {
     private Integer riskAssessmentID;
     private Integer maintenanceID; // Foreign Key (MaintenanceHistory)
     private Integer contractorID; // Foreign Key (Subcontractor)
-    private String systemType; // ENUM as String
     private Integer deviceID; // Foreign Key (Device)
     private LocalDate assessmentDate; // Date of assessment
     private Integer riskProbability; // 1-10
@@ -19,5 +18,5 @@ public class RiskAssessmentDto {
     private Integer riskDetection; // 1-10
     private Integer riskPriorityNumber; // Computed field
     private String mitigationAction; // Proposed action
-    private String remarks; // Comments
+
 }

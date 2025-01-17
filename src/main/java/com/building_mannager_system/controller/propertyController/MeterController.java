@@ -2,6 +2,7 @@ package com.building_mannager_system.controller.propertyController;
 
 import com.building_mannager_system.dto.requestDto.propertyDto.MeterDto;
 import com.building_mannager_system.dto.responseDto.ApiResponce;
+import com.building_mannager_system.dto.someDto.MeterByContactDto;
 import com.building_mannager_system.entity.customer_service.system_manger.Meter;
 import com.building_mannager_system.service.system_service.MeterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,14 +49,15 @@ public class MeterController {
     }
 
     // Get Meter by ID
+    // Get Meter by ID
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponce<MeterDto>> getMeterById(@PathVariable Integer id) {
-        MeterDto meterDTO = meterService.getMeterById(id);
+    public ResponseEntity<ApiResponce<MeterByContactDto>> getMeterById(@PathVariable Integer id) {
+        MeterByContactDto meterByContactDto = meterService.getMeterById(id);
 
         // Wrap the result in ApiResponse
-        ApiResponce<MeterDto> response = new ApiResponce<>(
+        ApiResponce<MeterByContactDto> response = new ApiResponce<>(
                 HttpStatus.OK.value(),
-                meterDTO,
+                meterByContactDto,
                 "Success"
         );
 

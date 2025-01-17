@@ -19,10 +19,44 @@ public class MaintenanceHistoryService {
     @Autowired
     private MaintenanceHistoryMapper mapper;
 
-    public MaintenanceHistoryDto createHistory(MaintenanceHistoryDto historyDto) {
-        MaintenanceHistory history = mapper.toEntity(historyDto);
-        return mapper.toDto(repository.save(history));
+    public MaintenanceHistory createHistory(MaintenanceHistoryDto historyDto) {
+        // Validate the incoming DTO
+        if (historyDto == null) {
+            throw new IllegalArgumentException("MaintenanceHistoryDto cannot be null");
+        }
+
+        if (historyDto.getDeviceId() == null) {
+            throw new IllegalArgumentException("DeviceId is required");
+        }
+
+        if (historyDto.getMaintenanceId() == null) {
+            throw new IllegalArgumentException("MaintenanceId is required");
+        }
+
+        // Map DTO to Entity
+        MaintenanceHistory maintenanceHistory = mapper.toEntity(historyDto);
+
+        // Debug log for mapped entity
+        System.out.println("Mapped MaintenanceHistory: " + maintenanceHistory);
+
+        // Validate the mapped entity
+        if (maintenanceHistory.getDevice() == null) {
+            throw new IllegalStateException("Device mapping failed. Device cannot be null.");
+        }
+
+        if (maintenanceHistory.getMaintenanceService() == null) {
+            throw new IllegalStateException("MaintenanceService mapping failed. MaintenanceService cannot be null.");
+        }
+
+        // Save the entity to the database
+        MaintenanceHistory savedHistory = repository.save(maintenanceHistory);
+
+        // Log the saved entity
+        System.out.println("Saved MaintenanceHistory: " + savedHistory);
+
+        return savedHistory;
     }
+
     // Get all Maintenance Histories
     public List<MaintenanceHistoryDto> getAllMaintenanceHistories() {
         List<MaintenanceHistory> histories = repository.findAll();

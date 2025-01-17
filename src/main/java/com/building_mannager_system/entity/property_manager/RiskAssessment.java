@@ -2,6 +2,7 @@ package com.building_mannager_system.entity.property_manager;
 
 
 import com.building_mannager_system.enums.ServiceType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,17 +23,16 @@ public class RiskAssessment {
     private Integer riskAssessmentID;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "maintenanceID", nullable = false)
     private MaintenanceHistory maintenanceHistory;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "contractorID", nullable = false)
     private Subcontractor contractor;
-
-    @Enumerated(EnumType.STRING)
-    private ServiceType systemType; // ENUM: Electrical, HVAC, Plumbing, etc.
-
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "deviceID", nullable = false)
     private Device device;
 
@@ -53,6 +53,5 @@ public class RiskAssessment {
     @Column(columnDefinition = "TEXT")
     private String mitigationAction; // Proposed mitigation action
 
-    @Column(columnDefinition = "TEXT")
-    private String remarks; // Additional comments
+
 }

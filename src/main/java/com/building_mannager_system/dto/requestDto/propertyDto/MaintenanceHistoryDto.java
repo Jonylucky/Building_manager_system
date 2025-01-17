@@ -11,6 +11,7 @@ import java.time.LocalDate;
 public class MaintenanceHistoryDto {
     private Long id;
     private Long maintenanceId;
+    private Long deviceId;
     private LocalDate performedDate;
     private String notes;
     private String technicianName;

@@ -1,11 +1,17 @@
 package com.building_mannager_system.service.system_service;
 
+import com.building_mannager_system.dto.requestDto.customer.ContactDto;
 import com.building_mannager_system.dto.requestDto.propertyDto.MeterDto;
+import com.building_mannager_system.dto.someDto.MeterByContactDto;
 import com.building_mannager_system.entity.customer_service.contact_manager.Office;
+import com.building_mannager_system.entity.customer_service.customer_manager.Contact;
 import com.building_mannager_system.entity.customer_service.system_manger.Meter;
+import com.building_mannager_system.mapper.customerMapper.ContactMapper;
 import com.building_mannager_system.mapper.propertiMapper.MeterMapper;
 import com.building_mannager_system.repository.system_manager.MeterRepository;
+import com.building_mannager_system.service.customer_service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +24,14 @@ public class MeterService {
     private MeterRepository meterRepository;
     @Autowired
     private MeterMapper meterMapper;  // Inject MeterMapper
+    @Autowired
+    private ContactMapper contactMapper;
 
+    @Autowired
+    @Lazy
+    private SomeFilterByMeterIdService someFilterByMeterIdService;
+    @Autowired
+    private ContactService contactService;
     // Create
     public MeterDto createMeter(MeterDto meterDTO) {
         // Chuyển MeterDTO thành Meter entity
@@ -55,11 +68,21 @@ public class MeterService {
     }
 
     // Get By ID
-    public MeterDto getMeterById(Integer id) {
+    public MeterByContactDto getMeterById(Integer id) {
         Meter meter = meterRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Meter not found with ID: " + id));
-        // Chuyển đổi Meter thành MeterDTO
-        return meterMapper.toDTO(meter);
+        MeterDto meterDto = meterMapper.toDTO(meter);
+        // Fetch ContactId using the refactored method
+        Integer contactId = someFilterByMeterIdService.getContactIdFromMeterId(id);
+        Contact contact = contactService.getContactById(contactId);
+        ContactDto contactDto = contactMapper.toDTO(contact);
+        MeterByContactDto meterByContactDto = new MeterByContactDto();
+
+        meterByContactDto.setContact(contactDto);
+        meterByContactDto.setMeter(meterDto);
+
+        return meterByContactDto;
+
     }
     // Phương thức để lấy Office từ MeterId
     public Office getOfficeByMeterId(Integer meterId) {

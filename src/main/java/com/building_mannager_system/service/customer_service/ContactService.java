@@ -37,5 +37,12 @@ public class ContactService {
         }
         return contactOptional.get();
     }
+    public  Contact getContactById(Integer contactId) {
+        Optional<Contact> contactOptional = contactRepository.findById(contactId);
+        if (!contactOptional.isPresent()) {
+            throw new RuntimeException("Contact not found for ContactId: " + contactId);
+        }
+        return contactOptional.get();
+    }
 
 }

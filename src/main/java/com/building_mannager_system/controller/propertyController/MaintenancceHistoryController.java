@@ -3,6 +3,7 @@ package com.building_mannager_system.controller.propertyController;
 
 import com.building_mannager_system.dto.requestDto.propertyDto.MaintenanceHistoryDto;
 import com.building_mannager_system.dto.responseDto.ApiResponce;
+import com.building_mannager_system.entity.property_manager.MaintenanceHistory;
 import com.building_mannager_system.service.property_manager.MaintenanceHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,9 +19,9 @@ public class MaintenancceHistoryController {
     private MaintenanceHistoryService maintenanceHistoryService;
     // Create a new maintenance history record
     @PostMapping
-    public ResponseEntity<ApiResponce<MaintenanceHistoryDto>> createMaintenanceHistory(@RequestBody MaintenanceHistoryDto maintenanceHistoryDto) {
-        MaintenanceHistoryDto createdHistory = maintenanceHistoryService.createHistory(maintenanceHistoryDto);
-        ApiResponce<MaintenanceHistoryDto> response = new ApiResponce<>(200, createdHistory, "Success");
+    public ResponseEntity<ApiResponce<MaintenanceHistory>> createMaintenanceHistory(@RequestBody MaintenanceHistoryDto maintenanceHistoryDto) {
+        MaintenanceHistory createdHistory = maintenanceHistoryService.createHistory(maintenanceHistoryDto);
+        ApiResponce<MaintenanceHistory> response = new ApiResponce<>(200, createdHistory, "Success");
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 

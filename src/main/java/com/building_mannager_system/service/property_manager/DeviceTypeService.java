@@ -25,11 +25,9 @@ public class DeviceTypeService {
     }
 
     // Read all DeviceTypes
-    public List<DeviceTypeDto> getAllDeviceTypes() {
-        return deviceTypeRepository.findAll()
-                .stream()
-                .map(deviceTypeMapper::toDTO)
-                .collect(Collectors.toList());
+    public List<DeviceType> getAllDeviceTypes() {
+        return deviceTypeRepository.findAll();
+
     }
 
     // Read a DeviceType by ID

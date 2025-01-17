@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -18,5 +19,7 @@ public class DeviceDto {
     private LocalDate installationDate;
     private Integer lifespan;
     private DeviceStatus status;
+    private List<MaintenanceHistoryDto> maintenanceHistories; // Các lịch sử bảo trì liên quan
 
+    private List<RiskAssessmentDto> riskAssessments; // Các đánh giá rủi ro liên quan
 }

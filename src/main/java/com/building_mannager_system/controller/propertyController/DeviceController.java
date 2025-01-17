@@ -1,7 +1,11 @@
 package com.building_mannager_system.controller.propertyController;
 
-import com.building_mannager_system.dto.requestDto.propertyDto.DeviceDto;
+import com.building_mannager_system.dto.requestDto.propertyDto.*;
 import com.building_mannager_system.dto.responseDto.ApiResponce;
+import com.building_mannager_system.entity.property_manager.Device;
+import com.building_mannager_system.mapper.propertiMapper.DeviceMapper;
+import com.building_mannager_system.mapper.propertiMapper.MaintenanceHistoryMapper;
+import com.building_mannager_system.mapper.propertiMapper.RiskAssessmentMapper;
 import com.building_mannager_system.service.property_manager.DeviceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,12 +13,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/device")
 public class DeviceController {
     @Autowired
     private DeviceService deviceService;
+    @Autowired
+    private MaintenanceHistoryMapper maintenanceHistoryMapper;
+    @Autowired
+    private RiskAssessmentMapper riskAssessmentMapper;
+    @Autowired
+    private DeviceMapper deviceMapper;
     // Create a new device
     @PostMapping
     public ResponseEntity<ApiResponce<DeviceDto>> createDevice(@RequestBody DeviceDto deviceDto) {
@@ -31,15 +42,20 @@ public class DeviceController {
         return ResponseEntity.ok(response);
     }
 
-    // Get a device by ID
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponce<DeviceDto>> getDeviceById(@PathVariable int id) {
-        DeviceDto device = deviceService.findDeviceById(id);
+    public ResponseEntity<ApiResponce<DeviceDetailDto>> getDeviceById(@PathVariable int id) {
+        Device device = deviceService.findDeviceById(id);
+
         if (device != null) {
-            ApiResponce<DeviceDto> response = new ApiResponce<>(200, device, "Device found");
+            // Map the device entity to the DeviceDetailDto using the mapper
+            DeviceDetailDto deviceDto = deviceMapper.toDetailDto(device);
+
+            // Create and return a successful response
+            ApiResponce<DeviceDetailDto> response = new ApiResponce<>(200, deviceDto, "Device found");
             return ResponseEntity.ok(response);
         } else {
-            ApiResponce<DeviceDto> response = new ApiResponce<>(404, null, "Device not found");
+            // Create and return a NOT_FOUND response
+            ApiResponce<DeviceDetailDto> response = new ApiResponce<>(404, null, "Device not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
     }
@@ -47,6 +63,9 @@ public class DeviceController {
     // Update a device by ID
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponce<DeviceDto>> updateDevice(@PathVariable int id, @RequestBody DeviceDto deviceDto) {
+
+
+
         DeviceDto updatedDevice = deviceService.updateDevice(id, deviceDto);
         if (updatedDevice != null) {
             ApiResponce<DeviceDto> response = new ApiResponce<>(200, updatedDevice, "Device updated successfully");
@@ -68,5 +87,16 @@ public class DeviceController {
             ApiResponce<Void> response = new ApiResponce<>(404, null, "Device not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
+    }
+    @PostMapping("/{deviceId}/risk-assessments-and-maintenance-history")
+    public ResponseEntity<ApiResponce<DeviceDto>> addRiskAssessmentAndMaintenanceHistoryToDevice(
+            @PathVariable int deviceId,
+            @RequestBody AddRiskAssessmentAndMaintenanceHistoryRequestDto request) {
+
+        DeviceDto updatedDevice = deviceService.addRiskAssessmentAndMaintenanceHistoryToDevice(
+                deviceId, request.getRiskAssessmentDto(), request.getMaintenanceHistoryDto());
+
+        ApiResponce<DeviceDto> response = new ApiResponce<>(200, updatedDevice, "Risk Assessment and Maintenance History added successfully");
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

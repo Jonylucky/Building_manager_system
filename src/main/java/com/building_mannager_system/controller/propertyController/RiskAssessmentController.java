@@ -3,6 +3,7 @@ package com.building_mannager_system.controller.propertyController;
 
 import com.building_mannager_system.dto.requestDto.propertyDto.RiskAssessmentDto;
 import com.building_mannager_system.dto.responseDto.ApiResponce;
+import com.building_mannager_system.entity.property_manager.RiskAssessment;
 import com.building_mannager_system.service.system_service.RiskAssessmentServcie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,9 +19,9 @@ public class RiskAssessmentController {
     private RiskAssessmentServcie riskAssessmentServcie;
     // Create RiskAssessment
     @PostMapping
-    public ResponseEntity<ApiResponce<RiskAssessmentDto>> createRiskAssessment(@RequestBody RiskAssessmentDto riskAssessmentDto) {
-        RiskAssessmentDto createdDto = riskAssessmentServcie.createRiskAssessment(riskAssessmentDto);
-        ApiResponce<RiskAssessmentDto> response = new ApiResponce<>(HttpStatus.CREATED.value(), createdDto, "Risk assessment created successfully");
+    public ResponseEntity<ApiResponce<RiskAssessment>> createRiskAssessment(@RequestBody RiskAssessment riskAssessmentDto) {
+        RiskAssessment createdDto = riskAssessmentServcie.createRiskAssessment(riskAssessmentDto);
+        ApiResponce<RiskAssessment> response = new ApiResponce<>(HttpStatus.CREATED.value(), createdDto, "Risk assessment created successfully");
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
