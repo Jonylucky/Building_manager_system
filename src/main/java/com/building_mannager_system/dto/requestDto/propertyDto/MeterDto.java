@@ -12,5 +12,6 @@ public class MeterDto {
     private String serialNumber;
     private String type; // Loại đồng hồ (Một pha / Ba pha)
     private LocalDate installationDate; // Ngày lắp đặt
+    private String location;
     private Integer officeId; // Id của văn phòng (nếu có)
 }

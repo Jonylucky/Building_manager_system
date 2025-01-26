@@ -2,6 +2,7 @@ package com.building_mannager_system.entity.customer_service.contact_manager;
 
 import com.building_mannager_system.entity.customer_service.officeSpaceAllcation.Location;
 import com.building_mannager_system.entity.customer_service.system_manger.Meter;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,6 +15,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "office")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "meters"})  // Ignore Hibernate proxy properties
 public class Office {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,6 +24,7 @@ public class Office {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "LocationId")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})  // Ignore proxy for location
     private Location location;
 
     @Column(name = "Area", precision = 15, scale = 2)
@@ -41,6 +44,7 @@ public class Office {
     private String drawingFile;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "office")
+    @JsonIgnoreProperties("office")  // Prevent serialization recursion
     private List<Meter> meters = new ArrayList<>();
 
 }

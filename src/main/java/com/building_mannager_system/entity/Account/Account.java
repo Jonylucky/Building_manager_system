@@ -1,6 +1,7 @@
 package com.building_mannager_system.entity.Account;
 
 
+import com.building_mannager_system.entity.customer_service.customer_manager.Customer;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,6 +19,12 @@ public class Account {
 
     @Column(nullable = false, unique = true, length = 255)
     private String username;
+
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "customer_id", foreignKey = @ForeignKey(name = "FK_account_customer"))
+    private Customer customer;
+
 
     @Column(nullable = false, unique = true, length = 255)
     private String email;

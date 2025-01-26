@@ -11,10 +11,15 @@ import com.building_mannager_system.service.notification.NotificationPaymentCont
 import com.building_mannager_system.service.verification_service.ElectricityUsageVerificationService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -123,6 +128,28 @@ public class ElectricityUsageService {
                 .collect(Collectors.toList());
     }
 
+
+    public Page<ElectricityUsageDTO> getHistoryElectricityUsagesByMeterId(int meterId, int page, int size) {
+        //kiểm tra page đầu vào
+        int pageIndex = (page > 0) ? page - 1 : 0;
+        // Tạo đối tượng Pageable với thông tin trang và số lượng bản ghi
+        Pageable pageable = PageRequest.of(pageIndex, size, Sort.by("readingDate").descending());
+
+        // Truy vấn danh sách sử dụng điện theo meterId với phân trang
+        Page<ElectricityUsage> electricityUsagePage = electricityUsageRepository.findByMeterId(meterId, pageable);
+
+        // Kiểm tra nếu danh sách rỗng, trả về một trang rỗng để tránh NullPointerException
+        if (electricityUsagePage.isEmpty()) {
+            return Page.empty();
+        }
+
+        // Chuyển đổi từ Page<Entity> sang Page<DTO> bằng mapper
+        Page<ElectricityUsageDTO> dtoPage = electricityUsagePage.map(electricityUsageMapper::toDTO);
+
+        // Trả về danh sách dữ liệu từ Page
+        return dtoPage;
+    }
+
     // Get Electricity Usage by ID
     public ElectricityUsageDTO getElectricityUsageById(Integer id) {
         ElectricityUsage entity = electricityUsageRepository.findById(id)
@@ -140,12 +167,7 @@ public class ElectricityUsageService {
         return electricityUsageMapper.toDTO(updatedEntity);
     }
 
-    // Delete Electricity Usage
-    public void deleteElectricityUsage(Integer id) {
-        ElectricityUsage existingEntity = electricityUsageRepository.findById(id)
-                .orElse(null);
-        electricityUsageRepository.delete(existingEntity);
-    }
+
 
     private void createElectricityUsageVerification(ElectricityUsage savedUsage) {
         // Lấy dữ liệu tháng trước
@@ -191,8 +213,12 @@ public class ElectricityUsageService {
 
         // Gọi service tạo ElectricityUsageVerification
         ElectricityUsageVerificationDto save = electricityUsageVerificationService.createElectricityUsageVerification(verificationDto);
-        Integer contacId = someFilterByMeterIdService.getContactIdFromMeterId(savedUsage.getMeter().getId());
-        notificationPaymentContractService.sendElectricityUsageVerificationNotification(contacId, save);
+
+       // tìm kiếm account by customer Id dong 216 có thể  thay đổi
+        Integer customerId = someFilterByMeterIdService.getContactIdFromMeterId(savedUsage.getMeter().getId());
+
+        // gủi thông báo tớ khách hàng
+        notificationPaymentContractService.sendElectricityUsageVerificationNotification(customerId, save);
 
     }
 

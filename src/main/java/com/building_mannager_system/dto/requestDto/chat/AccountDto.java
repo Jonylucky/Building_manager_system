@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 public class AccountDto {
     private Long id;          // ID người dùng
+    private Integer customerId;
     private String username;  // Tên người dùng
     private String email;     // Email của người dùng
     private String avatar;

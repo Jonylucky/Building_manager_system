@@ -7,6 +7,10 @@ import com.building_mannager_system.enums.Status;
 import com.building_mannager_system.mapper.verificationMapper.ElectricityUsageVerificationMapper;
 import com.building_mannager_system.repository.verificationRepository.ElectricityUsageVerificationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,6 +55,26 @@ public class ElectricityUsageVerificationService {
         List<ElectricityUsageVerification> entities = electricityUsageVerificationRepository.findAll();
         return electricityUsageMapper.toDTOList(entities);
     }
+    //find by Status
+    public  List<ElectricityUsageVerificationDto> getByStatus(Status status) {
+        return null;
+    }
+
+    //find by MeterID
+    public Page<ElectricityUsageVerificationDto> getVerificationsByMeterId(int meterId, int page, int size) {
+        // Kiểm tra giá trị của page để tránh lỗi chỉ số âm
+        int pageIndex = (page > 0) ? page - 1 : 0;
+
+        // Tạo đối tượng phân trang với sắp xếp theo "readingDate" giảm dần
+        Pageable pageable = PageRequest.of(pageIndex, size, Sort.by(Sort.Direction.DESC, "readingDate"));
+
+        // Truy xuất dữ liệu từ repository
+        Page<ElectricityUsageVerification> verificationPage = electricityUsageVerificationRepository.findByMeterId(meterId, pageable);
+
+        // Chuyển đổi entity sang DTO bằng mapper và trả về
+        return verificationPage.map(electricityUsageMapper::toDTO);
+    }
+
 
     // Update
     @Transactional

@@ -48,7 +48,7 @@ public class MeterController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    // Get Meter by ID
+
     // Get Meter by ID
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponce<MeterByContactDto>> getMeterById(@PathVariable Integer id) {
@@ -63,6 +63,18 @@ public class MeterController {
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+    @GetMapping("/contract/{customerId}")
+    public ResponseEntity<ApiResponce<List<MeterDto>>> getMetersByContractId(@PathVariable Integer customerId) {
+        List<MeterDto> meters = meterService.getMeterByContractId(customerId);
+
+        if (meters.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT)
+                    .body(new ApiResponce<>(204, null, "No meters found for contract ID: " + customerId));
+        }
+
+        return ResponseEntity.ok(new ApiResponce<>(200, meters, "Meters retrieved successfully"));
+    }
+
 
     // Update Meter by ID
     @PutMapping("/{id}")

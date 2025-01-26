@@ -10,7 +10,8 @@ import org.mapstruct.factory.Mappers;
 public interface MeterMapper {
     MeterMapper INSTANCE = Mappers.getMapper(MeterMapper.class);
 
-    @Mapping(source = "office.id", target = "officeId") // Ánh xạ id của Office sang officeId trong DTO
+    @Mapping(source = "office.id", target = "officeId")
+    @Mapping(source = "office.location.floor",target = "location")// Ánh xạ id của Office sang officeId trong DTO
     @Mapping(source = "meterType", target = "type")
     MeterDto toDTO(Meter meter);
 

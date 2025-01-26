@@ -1,6 +1,7 @@
 package com.building_mannager_system.service.customer_service;
 
 import com.building_mannager_system.dto.requestDto.customer.ContactDto;
+import com.building_mannager_system.entity.customer_service.contact_manager.Contract;
 import com.building_mannager_system.entity.customer_service.customer_manager.Contact;
 import com.building_mannager_system.mapper.customerMapper.ContactMapper;
 import com.building_mannager_system.repository.Contract.ContactRepository;
@@ -28,6 +29,8 @@ public class ContactService {
         // Convert the saved entity back to DTO and return it
         return contactMapper.toDTO(savedContact);
     }
+
+
     // Phương thức lấy Contact từ CustomerId
     public Contact getContactByCustomerId(Integer customerId) {
         // Tìm Contact theo CustomerId

@@ -3,6 +3,8 @@ package com.building_mannager_system.entity.customer_service.system_manger;
 import com.building_mannager_system.entity.customer_service.contact_manager.Office;
 import com.building_mannager_system.entity.customer_service.officeSpaceAllcation.Location;
 import com.building_mannager_system.enums.MeterType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,6 +19,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Meter {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +28,7 @@ public class Meter {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "OfficeId", nullable = false)
+    @JsonIgnore
     private Office office;  // Liên kết đến văn phòng
 
     @Column(name = "SerialNumber", nullable = false)
@@ -38,6 +42,7 @@ public class Meter {
     private LocalDate installationDate;  // Ngày lắp
 
     @OneToMany(mappedBy = "meter", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<ElectricityUsage> electricityUsages = new ArrayList<>();  // Lịch sử sử dụng điện
 
 }

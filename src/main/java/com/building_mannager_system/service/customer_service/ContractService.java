@@ -12,6 +12,7 @@ import com.building_mannager_system.entity.customer_service.customer_manager.Cus
 import com.building_mannager_system.entity.customer_service.system_manger.Meter;
 import com.building_mannager_system.mapper.contractMapper.ContractMapper;
 import com.building_mannager_system.repository.Contract.ContractRepository;
+import com.building_mannager_system.repository.Contract.CustomerRepository;
 import com.building_mannager_system.service.ConfigService.FileService;
 import com.building_mannager_system.service.officeAllcation.OfficeService;
 import com.building_mannager_system.service.system_service.MeterService;
@@ -25,6 +26,7 @@ import java.math.BigDecimal;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -42,14 +44,10 @@ public class ContractService {
      private OfficeService officeService;
      @Autowired
      private FileService fileService;
-     @Autowired
-     private ContactService contactService;
 
     @Autowired
     private ContractMapper contractMapper;
 
-   @Autowired
-   private MeterService meterService;
 
     @Autowired
     private CustomerTypeDocument customerTypeDocumentService;
@@ -61,6 +59,8 @@ public class ContractService {
                 .map(contractMapper::toDto) // Map each Contract to ContractDto
                 .collect(Collectors.toList());
     }
+
+
     //crate ctract
     public  ContractDto createContract(ContractDto contractDto, MultipartFile file) {
 
@@ -240,6 +240,11 @@ System.out.println("birthday :  " + birthdayThisYear);
         // Return the filtered contract
         return contract;
     }
+  // get ContrucByCusstomerId
+  public Contract getContractByCustomerId(Integer customerId) {
+      return Optional.ofNullable(contractRepository.findByCustomerID_Id(customerId))
+              .orElse(null);
+  }
 
 
     // Phương thức để lấy Contract từ OfficeId

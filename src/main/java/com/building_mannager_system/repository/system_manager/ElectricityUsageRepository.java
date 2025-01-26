@@ -2,6 +2,8 @@ package com.building_mannager_system.repository.system_manager;
 
 import com.building_mannager_system.dto.requestDto.propertyDto.ElectricityUsageDTO;
 import com.building_mannager_system.entity.customer_service.system_manger.ElectricityUsage;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -13,7 +15,7 @@ import java.util.List;
 @Repository
 public interface ElectricityUsageRepository extends JpaRepository<ElectricityUsage, Integer> {
 // Phương thức tự động tìm kiếm các bản ghi ElectricityUsage theo meterId
-    List<ElectricityUsage> findByMeterId(Integer meterId);
+Page<ElectricityUsage> findByMeterId(int meterId, Pageable pageable);
    // Phương thức tìm kiếm dữ liệu sử dụng điện trong khoảng thời gian
     List<ElectricityUsage> findByMeterIdAndReadingDateBetween(Integer meterId, LocalDate startDate, LocalDate endDate);
 

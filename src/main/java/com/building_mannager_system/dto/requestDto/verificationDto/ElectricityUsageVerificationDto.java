@@ -20,7 +20,9 @@ public class ElectricityUsageVerificationDto {
 
     private LocalDate readingDate;  // Ngày ghi chỉ số điện
 
+
     private String imageName;  // Tên hình ảnh của chỉ số điện tháng hiện tại
+
 
     private String previousMonthImageName;  // Tên hình ảnh của chỉ số điện tháng trước
 

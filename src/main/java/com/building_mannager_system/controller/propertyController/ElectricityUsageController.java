@@ -6,6 +6,7 @@ import com.building_mannager_system.entity.customer_service.system_manger.Electr
 import com.building_mannager_system.service.system_service.ElectricityUsageService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,6 +39,23 @@ public class ElectricityUsageController {
 
         return ResponseEntity.ok(usageHistory);
     }
+    @GetMapping("/usage-history/{meterId}")
+    public ResponseEntity<Page<ElectricityUsageDTO>> getElectricityUsageHistory(
+            @PathVariable int meterId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        Page<ElectricityUsageDTO> response = electricityUsageService.getHistoryElectricityUsagesByMeterId(meterId, page, size);
+
+        if (response.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok(response);
+    }
+
+
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteElectricityUsage(@PathVariable int id) {
         try {

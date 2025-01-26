@@ -4,6 +4,8 @@ import com.building_mannager_system.entity.Account.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long> {
     // Tìm người dùng theo username
@@ -12,5 +14,7 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
     // Tìm người dùng theo email
     Account findByEmail(String email);
     Account findByEmailAndPassword(String email, String password);
+
+    Optional<Account> findByCustomer_Id(int customerId);
 
 }

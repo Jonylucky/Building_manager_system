@@ -16,23 +16,20 @@ public class SomeFilterByMeterIdService {
     @Autowired
     private ContractService contractService;  // Tiêm ContractService
 
-    @Autowired
-    private ContactService contactService;
 
     // Phương thức lấy ContactId từ MeterId
     public Integer getContactIdFromMeterId(Integer meterId) {
         // Tìm Office từ MeterId
         Office office = meterService.getOfficeByMeterId(meterId);
-
         // Tìm Contract từ OfficeId
         Contract contract = contractService.getContractByOfficeId(office.getId());
 
         // Lấy CustomerId từ Contract
         Integer customerId = contract.getCustomerID().getId();
 
-        // Lấy ContactId từ CustomerId
-        Contact contact = contactService.getContactByCustomerId(customerId);
 
-        return contact.getId();  // Trả về ContactId
+
+
+        return customerId;
     }
 }

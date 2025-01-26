@@ -46,24 +46,25 @@ public class WebSocketAuthInterceptor  implements HandshakeInterceptor {
 
             // ✅ Kiểm tra token và xác thực
             if (token != null && token.startsWith("Bearer ")) {
-              accountService.updateIsOnlineWebsocket(1l);
-//                try {
-//                    String jwt = token.replace("Bearer ", "").trim();
-//                    if (jwtUtil.validateToken(jwt)) {
-//                        attributes.put("user", jwtUtil.extractUserDetails(jwt));
-//                        System.out.println("✅ Token hợp lệ, kết nối WebSocket thành công!");
-//                        return true;
-//                    } else {
-//                        response.setStatusCode(HttpStatus.UNAUTHORIZED);
-//                        System.out.println("❌ Token không hợp lệ.");
-//                        return false;
-//                    }
-//                } catch (Exception e) {
-//                    response.setStatusCode(HttpStatus.UNAUTHORIZED);
-//                    System.out.println("❌ Lỗi xử lý token: " + e.getMessage());
-//                    return false;
-//                }
-                return true;
+              //accountService.updateIsOnlineWebsocket(1l);
+                try {
+                    String jwt = token.replace("Bearer ", "").trim();
+                    if (jwtUtil.validateToken(jwt)) {
+
+                        attributes.put("user", jwtUtil.extractUserDetails(jwt));
+                        System.out.println("✅ Token hợp lệ, kết nối WebSocket thành công!");
+
+                        return true;
+                    } else {
+                        response.setStatusCode(HttpStatus.UNAUTHORIZED);
+                        System.out.println("❌ Token không hợp lệ.");
+                        return false;
+                    }
+                } catch (Exception e) {
+                    response.setStatusCode(HttpStatus.UNAUTHORIZED);
+                    System.out.println("❌ Lỗi xử lý token: " + e.getMessage());
+                    return false;
+                }
             }
         }
 

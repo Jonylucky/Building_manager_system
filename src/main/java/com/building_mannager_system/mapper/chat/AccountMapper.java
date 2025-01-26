@@ -13,10 +13,11 @@ public interface AccountMapper {
 
 
      @Mapping(source = "isOnlineWebsocket",target = "isOnlineWebsocket")
+     @Mapping(source = "customer.id",target = "customerId")
     AccountDto toDto(Account account);
 
 
-
+    @Mapping(source = "customerId",target = "customer.id")
     Account toEntity(AccountDto accountDto);
 
     List<AccountDto> toDtoList(List<Account> accounts);
